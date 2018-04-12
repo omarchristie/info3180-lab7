@@ -12,6 +12,9 @@ Vue.component('app-header', {
           <li class="nav-item active">
             <router-link class="nav-link" to="/">Home <span class="sr-only">(current)</span></router-link>
           </li>
+          <li class="nav-item active">
+            <router-link class="nav-link" to="/upload/">Upload <span class="sr-only">(current)</span></router-link>
+          </li>
         </ul>
       </div>
     </nav>
@@ -40,10 +43,31 @@ const Home = Vue.component('home', {
     }
 });
 
+const uploadform= Vue.component('upload-form', {
+    template: `
+        <div class="upload">
+        <h2>Upload</h2>
+        <div class="form-inline d-flex justify-content-center">
+            <form  @submit.prevent="uploadPhoto" method="POST" enctype="multipart/form-data">
+                <div>
+                <label for="msg">Description:</label>
+                <textarea id="msg" name="description"></textarea><br>
+                <input type="file" name="myFile"/>
+                </div>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+    `,
+    data: function() {
+       return {}
+    }
+});
+
 // Define Routes
 const router = new VueRouter({
     routes: [
-        { path: "/", component: Home }
+        { path: "/", component: Home },
+        { path: "/upload/", component: uploadform }
     ]
 });
 
