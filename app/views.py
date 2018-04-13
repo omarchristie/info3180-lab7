@@ -28,14 +28,14 @@ def upload():
     form=UploadForm()
     if request.method == "POST" and form.validate_on_submit():
         description = request.form['description']
-        file = request.form['myFile']
+        file = request.files['upload']
         filename = secure_filename(file.filename)
         file.save(os.path.join(filefolder, filename))
-        result = [{'message': "File Upload Successful", 'filename': filename, 'description': description}]
+        result = [{'message': 'File Upload Successful', 'filename': filename, 'description': description}]
         return jsonify(result=result)
     errorrec = form_errors(form)
     error = [{'error': errorrec}]
-    return  jsonify(error=error)
+    return  jsonify(errors=error)
     
 
 

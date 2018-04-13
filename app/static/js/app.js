@@ -48,18 +48,43 @@ const uploadform= Vue.component('upload-form', {
         <div class="upload">
         <h2>Upload</h2>
         <div class="form-inline d-flex justify-content-center">
-            <form  @submit.prevent="uploadPhoto" method="POST" enctype="multipart/form-data">
+            <form id="uploadForm"  @submit.prevent="uploadPhoto" method="POST" enctype="multipart/form-data">
                 <div>
                 <label for="msg">Description:</label>
                 <textarea id="msg" name="description"></textarea><br>
-                <input type="file" name="myFile"/>
+                <input type="file" name="upload"/>
                 </div>
-                <button type="submit">Send Message</button>
+                <button type="submit">Upload</button>
             </form>
+        </div>
         </div>
     `,
     data: function() {
-       return {}
+       return {};
+    },
+    methods: {
+        uploadPhoto: function () {
+            let uploadForm = document.getElementById('uploadForm');
+            let form_data = new FormData(uploadForm);
+            fetch("/api/upload", { 
+                method: 'POST', 
+                body: form_data,
+                headers: {
+                    'X-CSRFToken': token
+                },
+                credentials: 'same-origin'
+            })
+                .then(function (response) {
+                return response.json();
+                })
+                .then(function (jsonResponse) {
+                // display a success message
+                console.log(jsonResponse);
+                })
+                .catch(function (error) {
+                console.log(error);
+            });
+        }
     }
 });
 
