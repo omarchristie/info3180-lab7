@@ -48,6 +48,16 @@ const uploadform= Vue.component('upload-form', {
         <div class="upload">
         <h2>Upload</h2>
         <div class="form-inline d-flex justify-content-center">
+        <ul class="list">
+            <li v-for="resp in response"class="list">
+                {{ resp.message }}
+                {{resp.error}}
+            </li>
+            <li v-for="resp in error"class="list">
+                {{resp.error[0]}} <br>
+                {{resp.error[1]}}
+            </li>
+        </ul>
             <form id="uploadForm"  @submit.prevent="uploadPhoto" method="POST" enctype="multipart/form-data">
                 <div>
                 <label for="msg">Description:</label>
@@ -60,10 +70,14 @@ const uploadform= Vue.component('upload-form', {
         </div>
     `,
     data: function() {
-       return {};
+       return {
+           response: [],
+           error: []
+       };
     },
     methods: {
         uploadPhoto: function () {
+            let self = this;
             let uploadForm = document.getElementById('uploadForm');
             let form_data = new FormData(uploadForm);
             fetch("/api/upload", { 
@@ -80,6 +94,8 @@ const uploadform= Vue.component('upload-form', {
                 .then(function (jsonResponse) {
                 // display a success message
                 console.log(jsonResponse);
+                self.response = jsonResponse.result;
+                self.error = jsonResponse.errors;
                 })
                 .catch(function (error) {
                 console.log(error);
