@@ -51,7 +51,7 @@ const uploadform= Vue.component('upload-form', {
         <ul class="list">
             <li v-for="resp in response"class="list">
                 {{ resp.message }}
-                {{resp.error}}
+                {{resp.filename}}
             </li>
             <li v-for="resp in error"class="list">
                 {{resp.error[0]}} <br>
